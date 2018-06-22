@@ -1,0 +1,24 @@
+{
+  "name": "koa2-cas-client",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lihxhit/koa2-cas-client.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lihxhit/koa2-cas-client/issues"
+  },
+  "homepage": "https://github.com/lihxhit/koa2-cas-client#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "koa": "^2.5.1",
+    "koa-static": "^5.0.0"
+  }
+}
