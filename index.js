@@ -10,11 +10,11 @@ const DEFAULT_OPTIONS = {
         key: 'cas'
     },
     paths: {
-        homePage:'/',
+        homePage: '/',
         login: '/sso/login/',
         logout: {
-            cas:'/sso/logout',
-            server:''
+            cas: '/sso/logout',
+            server: ''
         },
         serviceValidate: '/sso/serviceValidate',
     }
@@ -25,7 +25,7 @@ function cas(opts, next) {
         if (!ctx.session) {
             throw new Error('session middleware required');
         }
-        if(!opts.servicePrefix){
+        if (!opts.servicePrefix) {
             throw new Error('opts.servicePrefix required');
         }
         // if (!opts.servicePrefix) {
@@ -37,21 +37,25 @@ function cas(opts, next) {
         }
         const path = ctx.path;
         const method = ctx.method;
-        if(opts.paths.logout.server){
-            if(util.pathEqual(path,opts.paths.logout.server)){
+        if (opts.paths.logout.server) {
+            if (util.pathEqual(path, opts.paths.logout.server)) {
                 ctx.session = null;
-                ctx.redirect(util.getPath('logout'));
+                return ctx.redirect(util.getPath('logout', context));
             }
         }
 
-        if (util.shouldIgnore(path, opts) || ctx.session.cas) {
+        if (util.shouldIgnore(path, opts) || ctx.session[opts.session.key]) {
+            if (ctx.query.ticket) {
+                return ctx.redirect(util.getPath('noticket', context));
+            }
             return await next();
         }
         if (method === 'GET') {
             if (ctx.query.ticket) {
-                await validate(ctx.query.ticket,context);
+                await validate(ctx.query.ticket, context);
+                return ctx.redirect(util.getPath('noticket', context));
             } else {
-                ctx.redirect(util.getPath('login',context));
+                ctx.redirect(util.getPath('login', context));
             }
         }
         await next();

@@ -12,14 +12,17 @@ const handler = async (ctx, next) =>{
     }catch(e){  
         ctx.response.status = e.statusCode ||e.status ||500;  
         ctx.body = e.message;
-        console.log(e);
+        console.error(e.stack);
     }  
 }  
 app.use(handler);  
 
 app.use(session(sessConfig, app));
 app.use(noxCasClient({
-    servicePrefix:'http://www.noxinfluencer.com',
+    session:{
+        key:'cas',
+    },
+    servicePrefix:'http://www.noxinfluencer.com:8888',
     serverPath:'https://passport-us.bignox.com',
     paths:{
         homePage:'/',
@@ -36,4 +39,4 @@ app.use(noxCasClient({
 app.use(async function (ctx) {
     ctx.body = ctx.session;
 });
-app.listen(8888);
+app.listen(8080);
