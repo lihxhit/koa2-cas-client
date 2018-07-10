@@ -23,7 +23,7 @@ app.use(noxCasClient({
         key:'cas',
     },
     servicePrefix:'http://www.noxinfluencer.com:8888',
-    serverPath:'https://passport-us.bignox.com',
+    serverPath:'https://passport.yeshen.com',
     paths:{
         homePage:'/',
         serviceValidate: '/sso/serviceValidate',

@@ -4,7 +4,7 @@ const CONFIG = {
     /** (number || 'session') maxAge in ms (default is 1 days) */
     /** 'session' will result in a cookie that expires when session/browser is closed */
     /** Warning: If a session cookie is stolen, this cookie will never expire */
-    maxAge: 60*1000,
+    maxAge: 60*1000*10,
     overwrite: true, /** (boolean) can overwrite or not (default true) */
     httpOnly: true, /** (boolean) httpOnly or not (default true) */
     signed: true, /** (boolean) signed or not (default true) */
@@ -14,6 +14,7 @@ const CONFIG = {
         async get(sid, ctx) {
             console.log('get', sid);
             let data = await redis.get(`SESSION:${sid}`);
+            console.log('get', sid,data);
             return JSON.parse(data);
         },
         async set(sid, session, maxAge) {
