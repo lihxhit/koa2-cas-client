@@ -59,7 +59,7 @@ function cas(opts, next) {
                 return await next();
             }
             if (!util.isAjax(context)) {
-                ctx.redirect(util.getPath('login', context));
+                return ctx.redirect(util.getPath('login', context));
             } else {
                 ctx.status = 403;
                 ctx.body = opts.ajax.response;
