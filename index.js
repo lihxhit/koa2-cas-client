@@ -10,7 +10,7 @@ function cas(opts, next) {
     opts = _.merge(DEFAULT_OPTIONS, opts);
     opts.ajax.response.data = opts.ajax.response.data || {
         origin: opts.serverPath,
-        login: opts.serverPath
+        login: opts.paths.login
     }
     return async function cas(ctx, next) {
         if (!ctx.session) {
