@@ -51,7 +51,7 @@ function cas(opts, next) {
                     } else {
                         ctx.session[sessionKey] = response;
                     }
-                }e
+                }
                 debug("redirect noticket after validate");
                 return ctx.redirect(util.getPath('noticket', context));
             }
