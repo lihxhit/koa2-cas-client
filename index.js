@@ -19,6 +19,7 @@ function cas(opts, next) {
         if (!opts.servicePrefix) {
             throw new Error('opts.servicePrefix required');
         }
+        const sessionKey = opts.session.key;
         try {
             opts.service = ctx.href;
             const context = {
@@ -28,7 +29,7 @@ function cas(opts, next) {
             const path = ctx.path;
             if (opts.paths.logout.server) {
                 if (util.pathEqual(path, opts.paths.logout.server)) {
-                    ctx.session = null;
+                    ctx.session[sessionKey] = null;
                     debug("match logout");
                     return ctx.redirect(util.getPath('logout', context));
                 }
@@ -44,7 +45,7 @@ function cas(opts, next) {
             }
             if (ctx.query.ticket) {
                 const response = await validate(ctx.query.ticket, context);
-                const sessionKey = opts.session.key;
+                
                 if (response) {
                     if (opts.casInfoFormat) {
                         ctx.session[sessionKey] = opts.casInfoFormat(response);
@@ -55,7 +56,7 @@ function cas(opts, next) {
                 debug("redirect noticket after validate");
                 return ctx.redirect(util.getPath('noticket', context));
             }
-            if (ctx.session[opts.session.key]) {
+            if (ctx.session[sessionKey]) {
                 return await next();
             }
             if (!util.isAjax(context)) {
