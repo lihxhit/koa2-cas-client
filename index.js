@@ -17,7 +17,7 @@ function cas(opts, next) {
             throw new Error('session middleware required');
         }
         if (!opts.servicePrefix) {
-            throw new Error('opts.servicePrefix required');
+            opts.servicePrefix = ctx.origin;
         }
         const sessionKey = opts.session.key;
         try {
